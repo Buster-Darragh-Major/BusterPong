@@ -32,7 +32,7 @@ public class Controller implements Initializable {
 	private final static String DEFAULT_PLAYER_1_SCORE = "0";
 	private final static String DEFAULT_PLAYER_2_SCORE = "0";
 	
-	PongModel _model;
+	private PongModel _model;
 	
 	@FXML
 	public void handleMainMenuPlayClick() {
