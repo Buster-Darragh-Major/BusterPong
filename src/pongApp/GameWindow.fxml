@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyStroke" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pongApp.Controller">
+   <children>
+      <Canvas fx:id="_gameWindow" height="346.0" layoutX="8.0" layoutY="8.0" width="583.0" />
+      <Label fx:id="_player1Score" layoutX="11.0" layoutY="354.0">
+         <font>
+            <Font name="Yu Gothic UI Regular" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="_player2Score" layoutX="576.0" layoutY="354.0">
+         <font>
+            <Font name="Yu Gothic UI Regular" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
