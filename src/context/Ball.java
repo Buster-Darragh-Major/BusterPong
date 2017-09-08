@@ -42,5 +42,9 @@ public class Ball {
 		_x += _deltaX;
 		_y += _deltaY;
 	}
-
+	
+	public void setStart(int x, int y) {
+		_x = x;
+		_y = y;
+	}
 }
