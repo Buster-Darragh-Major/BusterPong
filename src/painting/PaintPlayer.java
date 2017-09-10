@@ -6,6 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class PaintPlayer extends PaintPong {
 	
+	private Player _player;
+	
 	private int _xFromWall;
 	private int _y;
 	private int _paddleHeight;
@@ -15,11 +17,17 @@ public class PaintPlayer extends PaintPong {
 	public PaintPlayer(Player player, GraphicsContext gc) {
 		super(gc);
 		
-		_xFromWall = player.getXFromWall();
-		_y = player.getY();
-		_paddleHeight = player.height();
-		_paddleWidth = player.width();
-		_playerType = player.getPlayerType();
+		_player = player;
+		
+		update();
+	}
+	
+	public void update() {
+		_xFromWall = _player.getXFromWall();
+		_y = _player.getY();
+		_paddleHeight = _player.height();
+		_paddleWidth = _player.width();
+		_playerType = _player.getPlayerType();
 	}
 	
 	public void paint() {

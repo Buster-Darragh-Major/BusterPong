@@ -16,4 +16,5 @@ public abstract class PaintPong {
 
 	public abstract void paint();
 	
+	public abstract void update();
 }
