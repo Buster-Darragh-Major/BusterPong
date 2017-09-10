@@ -77,11 +77,6 @@ public class GameWindowController implements Initializable {
 		_player1Score.setText(game.getPlayer1().getScore() + "");
 		_player2Score.setText(game.getPlayer2().getScore() + "");
 		
-		// Set default ball location
-		game.getPlayer1().setStart((int) _gameWindow.getHeight() / 2);
-		game.getPlayer2().setStart((int) _gameWindow.getHeight() / 2); 
-		game.getBall().setStart((int) _gameWindow.getWidth() / 2, (int) _gameWindow.getHeight() / 2);
-		
 		// Paint paddles, Ball and graphics context
 		GraphicsContext gc = _gameWindow.getGraphicsContext2D();
 		PaintPlayer paintPlayer1 = new PaintPlayer(game.getPlayer1(), gc);

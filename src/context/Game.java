@@ -24,6 +24,10 @@ public class Game {
 	public void setGameDimensions(int x, int y) {
 		_width = x;
 		_height = y;
+		
+		_player1.setStart(_height / 2);
+		_player2.setStart(_height / 2); 
+		_ball.setStart(_width / 2, _height / 2);
 	}
 	
 	public Player getPlayer1() {
