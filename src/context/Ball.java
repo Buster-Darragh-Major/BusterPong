@@ -2,8 +2,8 @@ package context;
 
 public class Ball {
 	
-	private static final int DEFAULT_DELTA_X = 0;
-	private static final int DEFAULT_DELTA_Y = 0;
+	private static final int DEFAULT_DELTA_X = 5;
+	private static final int DEFAULT_DELTA_Y = 6;
 	private static final int DEFAULT_RADIUS = 10;
 	
 	private int _x;
@@ -41,6 +41,14 @@ public class Ball {
 	public void move() {
 		_x += _deltaX;
 		_y += _deltaY;
+	}
+	
+	public void changeVert() {
+		_deltaY = -_deltaY;
+	}
+	
+	public void changeHorz() {
+		_deltaX = -_deltaX;
 	}
 	
 	public void setStart(int x, int y) {

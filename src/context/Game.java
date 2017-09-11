@@ -14,6 +14,8 @@ public class Game {
 	// Game Parameters
 	private int _width;
 	private int _height;
+	private PlayerType _lastWinner = PlayerType.PLAYER2;
+	private boolean _served = false;
 	
 	public Game() {
 		_player1 = new Player(PlayerType.PLAYER1);
@@ -25,9 +27,20 @@ public class Game {
 		_width = x;
 		_height = y;
 		
-		_player1.setStart(_height / 2);
-		_player2.setStart(_height / 2); 
-		_ball.setStart(_width / 2, _height / 2);
+		_player1.setX(_player1.getLeftPaddleWallFromWall());
+		_player1.setY(_height / 2);
+		
+		_player2.setX(_width - _player2.getLeftPaddleWallFromWall());
+		_player2.setY(_height / 2);
+	}
+	
+	public void newMatch() {
+		_served = false;
+		_ball = new Ball();
+	}
+	
+	public void serve() {
+		_served = true;
 	}
 	
 	public Player getPlayer1() {
@@ -63,6 +76,47 @@ public class Game {
 	public void p2Down() {
 		if (_player2.getLowerPaddleWall() < _height) {
 			_player2.moveDown();
+		}
+	}
+	
+	public void moveBall() {
+		if (_served) {
+			if ((_ball.getY() < 0) || (_ball.getY() > _height)) {
+				_ball.changeVert();
+			}
+			
+			if (_ball.getX() < 0) {
+				_player2.incrementScore();
+				_lastWinner = PlayerType.PLAYER2;
+				newMatch();
+			} else if (_ball.getX() > _width) {
+				_player1.incrementScore();
+				_lastWinner = PlayerType.PLAYER1;
+				newMatch();
+			}
+			
+			if (((_ball.getX() < _player1.getRightPaddleWallFromWall() + _player1.width()) && (_ball.getX() > _player1.getLeftPaddleWallFromWall() + _ball.getDeltaX())) && haveCollided(_player1, _ball)) {
+				_ball.changeHorz();
+			} else if (((_ball.getX() > _player2.getX()) && (_ball.getX() < _player2.getX() + _player2.width() + _ball.getDeltaX())) && haveCollided(_player2, _ball)) {
+				_ball.changeHorz();
+			}
+			
+			_ball.move();
+		} else {
+			if (_lastWinner == PlayerType.PLAYER1) {
+				_ball.setStart(_player2.getX(), _player2.getBallServeY() + _ball.getRadius() / 2);
+			} else if (_lastWinner == PlayerType.PLAYER2) {
+				_ball.setStart(_player1.getX() + _player1.width() + _ball.getRadius(), _player1.getBallServeY() + _ball.getRadius() / 2);
+			}
+		}
+	}
+		
+	
+	private boolean haveCollided(Player player, Ball ball) {
+		if ((ball.getY() > player.getUpperPaddleWall()) && (ball.getY() < player.getLowerPaddleWall())) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

@@ -3,22 +3,16 @@ package pongApp;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import context.Ball;
 import context.Context;
 import context.Game;
-import context.Player;
 import javafx.animation.AnimationTimer;
-import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import painting.PaintBall;
 import painting.PaintPlayer;
 
@@ -33,6 +27,8 @@ public class GameWindowController implements Initializable {
 	private Label _player2Score = new Label();
 	@FXML
 	private Canvas _gameWindow;
+	
+	private Game _game;
 	
 	// User Input Variables
 	private boolean _wIsPressed = false;
@@ -50,6 +46,8 @@ public class GameWindowController implements Initializable {
 			_upIsPressed = true;
 		} else if (e.getCode().toString() == "DOWN") {
 			_downIsPressed = true;
+		} else if (e.getCode().toString() == "SPACE") {
+			serve();
 		}
 	}
 	
@@ -70,35 +68,36 @@ public class GameWindowController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Retrieve game object
 		Context.getInstance().newGame();
-		Game game = Context.getInstance().currentGame();
-		game.setGameDimensions((int) _gameWindow.getWidth(), (int) _gameWindow.getHeight());
+		_game = Context.getInstance().currentGame();
+		_game.setGameDimensions((int) _gameWindow.getWidth(), (int) _gameWindow.getHeight());
 		
 		// Set scores
-		_player1Score.setText(game.getPlayer1().getScore() + "");
-		_player2Score.setText(game.getPlayer2().getScore() + "");
+		_player1Score.setText(_game.getPlayer1().getScore() + "");
+		_player2Score.setText(_game.getPlayer2().getScore() + "");
 		
 		// Paint paddles, Ball and graphics context
 		GraphicsContext gc = _gameWindow.getGraphicsContext2D();
-		PaintPlayer paintPlayer1 = new PaintPlayer(game.getPlayer1(), gc);
-		PaintPlayer paintPlayer2 = new PaintPlayer(game.getPlayer2(), gc);
-		PaintBall paintBall = new PaintBall(game.getBall(), gc);
+		PaintPlayer paintPlayer1 = new PaintPlayer(_game.getPlayer1(), gc);
+		PaintPlayer paintPlayer2 = new PaintPlayer(_game.getPlayer2(), gc);
+		PaintBall paintBall = new PaintBall(_game, gc);
 		
 		// Begin animation
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long arg0) {
 				if (_wIsPressed) {
-					game.p1Up();
+					_game.p1Up();
 				}
 				if (_sIsPressed) {
-					game.p1Down();
+					_game.p1Down();
 				}
 				if (_upIsPressed) {
-					game.p2Up();
+					_game.p2Up();
 				}
 				if (_downIsPressed) {
-					game.p2Down();
+					_game.p2Down();
 				}
+				_game.moveBall();
 				
 				gc.clearRect(0, 0, 1000, 1000);
 				
@@ -114,5 +113,9 @@ public class GameWindowController implements Initializable {
 		};
 		
 		timer.start();
+	}
+	
+	private void serve() {
+		_game.serve();
 	}
 }

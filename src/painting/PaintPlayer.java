@@ -23,7 +23,7 @@ public class PaintPlayer extends PaintPong {
 	}
 	
 	public void update() {
-		_xFromWall = _player.getXFromWall();
+		_xFromWall = _player.getLeftPaddleWallFromWall();
 		_y = _player.getY();
 		_paddleHeight = _player.height();
 		_paddleWidth = _player.width();

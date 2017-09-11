@@ -8,11 +8,12 @@ public class Player {
 	private static final int DEFAULT_WIDTH = 10;
 	private static final int DEFAULT_HEIGHT = 50;
 	private static final int DEFAULT_X_FROM_WALL = 30;
-	private static final int DEFAULT_SPEED = 5;
+	private static final int DEFAULT_SPEED = 10;
 	
 	private final PlayerType _playerType;
 	private int _score;
 	private int _xFromWall;
+	private int _x;
 	private int _y;
 	private int _width;
 	private int _height;
@@ -23,8 +24,13 @@ public class Player {
 		_score = DEFAULT_SCORE;
 		_width = DEFAULT_WIDTH;
 		_height = DEFAULT_HEIGHT;
-		_xFromWall = DEFAULT_X_FROM_WALL;
 		_speed = DEFAULT_SPEED;
+		
+		if (playerType == PlayerType.PLAYER1) {
+			_xFromWall = DEFAULT_X_FROM_WALL;
+		} else if (playerType == PlayerType.PLAYER2) {
+			_xFromWall = DEFAULT_X_FROM_WALL + _width;
+		}
 	}
 	
 	public void incrementScore() {
@@ -39,8 +45,16 @@ public class Player {
 		return _playerType;
 	}
 	
-	public int getXFromWall() {
-		return _xFromWall;
+	public void setX(int x) {
+		_x = x;
+	}
+	
+	public void setY(int y) {
+		_y = y;
+	}
+	
+	public int getX() {
+		return _x;
 	}
 	
 	public int getY() {
@@ -63,10 +77,6 @@ public class Player {
 		_y += _speed;
 	}
 	
-	public void setStart(int y) {
-		_y = y - (_height / 2);
-	}
-	
 	public void setSpeed(int speed) {
 		_speed = speed;
 	}
@@ -77,5 +87,17 @@ public class Player {
 	
 	public int getLowerPaddleWall() {
 		return _y + _height;
+	}
+	
+	public int getLeftPaddleWallFromWall() {
+		return _xFromWall;
+	}
+	
+	public int getRightPaddleWallFromWall() {
+		return _xFromWall + _width;
+	}
+	
+	public int getBallServeY() {
+		return _y + (_height / 2);
 	}
 }
