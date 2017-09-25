@@ -85,6 +85,9 @@ public class GameWindowController implements Initializable {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long arg0) {
+				_player1Score.setText(_game.getPlayer1().getScore() + "");
+				_player2Score.setText(_game.getPlayer2().getScore() + "");
+				
 				if (_wIsPressed) {
 					_game.p1Up();
 				}
