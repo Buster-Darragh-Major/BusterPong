@@ -1,5 +1,7 @@
 package context;
 
+import javafx.concurrent.Task;
+
 public class Game {
 	
 	public enum PlayerType {
@@ -16,6 +18,7 @@ public class Game {
 	private int _height;
 	private PlayerType _lastWinner = PlayerType.PLAYER2;
 	private boolean _served = false;
+	private boolean _paused = false;
 	
 	public Game() {
 		_player1 = new Player(PlayerType.PLAYER1);
@@ -96,9 +99,22 @@ public class Game {
 			}
 			
 			if (((_ball.getX() < _player1.getRightPaddleWallFromWall() + _player1.width()) && (_ball.getX() > _player1.getLeftPaddleWallFromWall() + _ball.getDeltaX())) && haveCollided(_player1, _ball)) {
-				_ball.changeHorz();
+				if (!_paused) {
+					double distFromCenter =_ball.getY() - _player1.getBallServeY();
+					double centerScalar = (distFromCenter / (_player1.height() / 2));
+					_ball.scaleDeltaY(centerScalar);
+					_ball.changeHorz();
+					pauseBounceDetection();
+				}
+				
 			} else if (((_ball.getX() > _player2.getX()) && (_ball.getX() < _player2.getX() + _player2.width() + _ball.getDeltaX())) && haveCollided(_player2, _ball)) {
-				_ball.changeHorz();
+				if (!_paused) {
+					double distFromCenter =_ball.getY() - _player2.getBallServeY();
+					double centerScalar = (distFromCenter / (_player2.height() / 2));
+					_ball.scaleDeltaY(centerScalar);
+					_ball.changeHorz();
+					pauseBounceDetection();
+				}
 			}
 			
 			_ball.move();
@@ -109,6 +125,23 @@ public class Game {
 				_ball.setStart(_player1.getX() + _player1.width() + _ball.getRadius(), _player1.getBallServeY() + _ball.getRadius() / 2);
 			}
 		}
+	}
+	
+	private void pauseBounceDetection() {
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				_paused = true;
+				Thread.sleep(100);
+				_paused = false;
+				return null;
+			}
+			
+		};
+		
+		Thread th = new Thread(task);
+		th.setDaemon(true);
+		th.start();
 	}
 		
 	
