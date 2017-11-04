@@ -3,11 +3,7 @@ package context;
 import javafx.concurrent.Task;
 
 public class Game {
-	
-	public enum PlayerType {
-		PLAYER1, PLAYER2
-	}
-	
+
 	// Game objects
 	private Player _player1;
 	private Player _player2;

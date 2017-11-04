@@ -1,7 +1,5 @@
 package context;
 
-import context.Game.PlayerType;
-
 public class Player {
 	
 	private static final int DEFAULT_SCORE = 0;

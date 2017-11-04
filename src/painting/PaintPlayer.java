@@ -1,7 +1,7 @@
 package painting;
 
-import context.Game.PlayerType;
 import context.Player;
+import context.PlayerType;
 import javafx.scene.canvas.GraphicsContext;
 
 public class PaintPlayer extends PaintPong {
